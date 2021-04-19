@@ -1,0 +1,136 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'com.google.gms.google-services'  // Google Services plugin
+}
+
+android {
+    signingConfigs {
+        config {
+        }
+    }
+    compileSdkVersion 30
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.example.pushtest"
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 7
+        versionName "0.7"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def appName = "ydnjs"
+                    outputFileName = appName + getTimestamp() + "_${variant.versionName}.apk"
+                }
+            }
+
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures{
+        dataBinding = true
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+
+    }
+}
+
+/*
+androidExtensions {
+    experimental = true
+}
+*/
+
+def getTimestamp() {
+    def date = new Date()
+    return date.format('yyyyMMdd_HHmm')
+}
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.wear:wear:1.1.0'
+    testImplementation 'junit:junit:4.+'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    // log
+    implementation 'com.orhanobut:logger:2.2.0'
+    //progress indicator
+    implementation 'com.wang.avi:library:2.1.3'
+    // edittext
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+    //스냅바
+    implementation 'com.github.johnkil.android-appmsg:appmsg:1.2.0'
+    //loding indicator
+    implementation 'com.wang.avi:library:2.1.3'
+    //event bus
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    //jodatime
+    implementation 'net.danlew:android.joda:2.10.1.2'
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // okhttp
+    implementation 'com.squareup.okhttp3:okhttp:4.2.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
+    // glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation "com.github.bumptech.glide:okhttp3-integration:4.11.0"
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+//    implementation 'com.google.firebase:firebase-messaging:21.0.1' // fcm
+    implementation 'gun0912.ted:tedpermission:2.2.3' // 퍼미션 체크 라이브러리
+
+    // 이미지 압축 라이브러리
+    implementation 'me.shouheng.compressor:compressor:1.3.9'
+
+    // 이미지 picker 라이브러리 (다중선택)
+    implementation 'com.github.esafirm.android-image-picker:imagepicker:2.4.3'
+
+    implementation 'de.hdodenhof:circleimageview:3.0.1' // 이미지 원형 라이브러리
+
+    // --- fcm 관련 모듈
+    implementation platform('com.google.firebase:firebase-bom:26.8.0')
+    // Declare the dependencies for the Firebase Cloud Messaging and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+
+    def billing_version = "3.0.0"
+
+    implementation "com.android.billingclient:billing:$billing_version"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    compileOnly 'com.google.android.wearable:wearable:2.8.1'
+}
